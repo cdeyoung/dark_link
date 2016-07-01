@@ -4,7 +4,7 @@ defmodule RORC.SocketServer do
   def accept(port) do
     {:ok, socket} = :gen_tcp.listen(port, [
       :binary,
-      packet: :line,
+      packet: :raw,
       active: false,
       reuseaddr: true
     ])
@@ -21,7 +21,13 @@ defmodule RORC.SocketServer do
     {:ok, data} = :gen_tcp.recv(client, 0)
     Logger.info("RECEIVED: #{data}")
 
-    :gen_tcp.send(client, "")
+    :gen_tcp.send(client, "<message name='SignOn'><fields><field name='Cashier'>7</field><field name='Password'>007</field></fields></message>")
+    {:ok, data} = :gen_tcp.recv(client, 0)
+    Logger.info("RECEIVED: #{data}")
+
+    :get_tcp.send(client, "<message name='Item'><fields><field name='Code'>4011</field><field name='Weight'>480</field></fields></message>"
+    {:ok, data} = :gen_tcp.recv(client, 0)
+    Logger.info("RECEIVED: #{data}")
 
     # The receive loop happens once per connection, so put all your initialization code above this line
 
