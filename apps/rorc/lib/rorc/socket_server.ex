@@ -25,7 +25,7 @@ defmodule RORC.SocketServer do
     {:ok, data} = :gen_tcp.recv(client, 0)
     Logger.info("RECEIVED: #{data}")
 
-    :get_tcp.send(client, "<message name='Item'><fields><field name='Code'>4011</field><field name='Weight'>480</field></fields></message>"
+    :gen_tcp.send(client, "<message name='Item'><fields><field name='Code'>4011</field><field name='Weight'>480</field></fields></message>")
     {:ok, data} = :gen_tcp.recv(client, 0)
     Logger.info("RECEIVED: #{data}")
 
